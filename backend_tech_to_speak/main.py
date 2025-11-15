@@ -3,6 +3,8 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from controllers.audio_controller import router as audio_router
 from controllers.jargon_controller import router as jargon_router
+from controllers.image_controller import router as image_router
+from controllers.file_controller import router as file_router
 
 app = FastAPI(
     title="Tech To Speak API",
@@ -12,7 +14,7 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Para producción luego puedes restringir dominios
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -24,3 +26,5 @@ def read_root():
 
 app.include_router(audio_router, prefix="/api/v1/audio", tags=["audio"])
 app.include_router(jargon_router, prefix="/api/v1/jargon", tags=["traductor"])
+app.include_router(image_router, prefix="/api/v1/image", tags=["imagen"])
+app.include_router(file_router, prefix="/api/v1/file", tags=["archivo"])
