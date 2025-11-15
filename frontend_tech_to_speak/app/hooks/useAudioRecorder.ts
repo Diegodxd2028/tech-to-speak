@@ -12,9 +12,9 @@ export const useAudioRecorder = () => {
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
-  const silenceTimerRef = useRef<NodeJS.Timeout | null>(null);
-  const analyserRef = useRef<AnalyserNode | null>(null);
-  const dataArrayRef = useRef<Uint8Array | null>(null);
+  // Eliminado: const silenceTimerRef = useRef<NodeJS.Timeout | null>(null);
+  // Eliminado: const analyserRef = useRef<AnalyserNode | null>(null);
+  // Eliminado: const dataArrayRef = useRef<Uint8Array | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
 
   const startRecording = async () => {
@@ -47,40 +47,7 @@ export const useAudioRecorder = () => {
         setRecordingTime(prev => prev + 1);
       }, 1000);
 
-      const audioContext = new AudioContext();
-      const analyser = audioContext.createAnalyser();
-      analyser.fftSize = 256;
-      const microphone = audioContext.createMediaStreamSource(stream);
-      microphone.connect(analyser);
-      analyserRef.current = analyser;
-      dataArrayRef.current = new Uint8Array(analyser.frequencyBinCount);
-
-      const checkSilence = () => {
-        if (analyserRef.current && dataArrayRef.current) {
-          analyserRef.current.getByteFrequencyData(dataArrayRef.current);
-          const rms = Math.sqrt(
-            dataArrayRef.current.reduce((sum, val) => sum + val * val, 0) /
-            dataArrayRef.current.length
-          );
-
-          if (rms < 10) {
-            if (!silenceTimerRef.current) {
-              silenceTimerRef.current = setTimeout(() => {
-                stopRecording();
-              }, 2000);
-            }
-          } else {
-            if (silenceTimerRef.current) {
-              clearTimeout(silenceTimerRef.current);
-              silenceTimerRef.current = null;
-            }
-          }
-        }
-        if (isRecording) {
-          requestAnimationFrame(checkSilence);
-        }
-      };
-      checkSilence();
+      // Eliminado: todo lo relacionado con checkSilence y el análisis de silencio
     } catch (error) {
       const message = 'Error al acceder al micrófono';
       setError(message);
@@ -100,9 +67,9 @@ export const useAudioRecorder = () => {
 
       setIsRecording(false);
       if (timerRef.current) clearInterval(timerRef.current);
-      if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current);
-      analyserRef.current = null;
-      dataArrayRef.current = null;
+      // Eliminado: if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current);
+      // Eliminado: analyserRef.current = null;
+      // Eliminado: dataArrayRef.current = null;
     } catch (error) {
       console.error('Error stopping recording:', error);
     }

@@ -21,7 +21,7 @@ export default function Home() {
       <div className="w-full max-w-2xl">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-5xl font-bold text-gray-900 mb-2">Tech to Talk</h1>
+          <h1 className="text-5xl font-bold text-gray-900 mb-2">Talky</h1>
           <p className="text-gray-600 text-lg">Convierte tu voz en acciones claras</p>
         </div>
 
